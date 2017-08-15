@@ -41,8 +41,19 @@
 			// something went wrong return false;
 			return false;
 		}
-
 	}
+	
+        function iterateForEach(arrayLike, asKeyValArrays) {
+            if (typeof arrayLike.forEach !== 'function') {
+                return false;
+            }
+            var tempArray = [];
+            var addEl = asKeyValArrays
+                ? function (val, key) { tempArray.push([key, val]); } 
+                : function (val) { tempArray.push(val); };
+            arrayLike.forEach(addEl);
+            return tempArray;
+        }
 
 	Object.defineProperty(Array, 'from', {
 		configurable: true,
@@ -72,15 +83,11 @@
 			arrayFromIterable = parseIterable(arraylike);
 
 			//if it is a Map or a Set then handle them appropriately
-			if (
-				typeof arraylike.entries === 'function' &&
-				typeof arraylike.values === 'function'
-			) {
-				if (arraylike.constructor.name === 'Set' && 'values' in Set.prototype) {
-					arrayFromIterable = parseIterable(arraylike.values());
-				}
-				if (arraylike.constructor.name === 'Map' && 'entries' in Map.prototype) {
-					arrayFromIterable = parseIterable(arraylike.entries());
+			if (!arrayFromIterable) {
+				if (arrayLike instanceof Map) {
+					arrayFromIterable = iterateForEach(arrayLike,  true);
+				} else if (arrayLike.forEach) {
+					arrayFromIterable = iterateForEach(arrayLike);
 				}
 			}
 
