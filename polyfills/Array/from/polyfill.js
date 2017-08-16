@@ -43,15 +43,15 @@
 		}
 	}
 	
-        function iterateForEach(arrayLike, asKeyValArrays) {
-            if (typeof arrayLike.forEach !== 'function') {
+        function iterateForEach(arraylike, asKeyValArrays) {
+            if (typeof arraylike.forEach !== 'function') {
                 return false;
             }
             var tempArray = [];
             var addEl = asKeyValArrays
                 ? function (val, key) { tempArray.push([key, val]); } 
                 : function (val) { tempArray.push(val); };
-            arrayLike.forEach(addEl);
+            arraylike.forEach(addEl);
             return tempArray;
         }
 
@@ -84,10 +84,10 @@
 
 			//if it is a Map or a Set then handle them appropriately
 			if (!arrayFromIterable) {
-				if (arrayLike instanceof Map) {
-					arrayFromIterable = iterateForEach(arrayLike,  true);
-				} else if (arrayLike.forEach) {
-					arrayFromIterable = iterateForEach(arrayLike);
+				if (arraylike instanceof Map) {
+					arrayFromIterable = iterateForEach(arraylike,  true);
+				} else if (arraylike.forEach) {
+					arrayFromIterable = iterateForEach(arraylike);
 				}
 			}
 
