@@ -13,7 +13,6 @@
 			while (!done) {
 				iterableResponse = arraylike.next();
 				if (
-					iterableResponse.hasOwnProperty('value') &&
 					iterableResponse.hasOwnProperty('done')
 				) {
 					if (iterableResponse.done === true) {
@@ -24,10 +23,12 @@
 					} else if (iterableResponse.done !== false) {
 						break;
 					}
-
-					tempArray.push(iterableResponse.value);
+					if (iterableResponse.hasOwnProperty('value')){
+						tempArray.push(iterableResponse.value);
+					} else {
+						break;
+					}
 				} else {
-
 					// it does not conform to the iterable pattern
 					break;
 				}
@@ -86,7 +87,7 @@
 			if (!arrayFromIterable) {
 				if (arraylike instanceof Map) {
 					arrayFromIterable = iterateForEach(arraylike,  true);
-				} else if (arraylike.forEach) {
+				} else if (arraylike instanceof Set) {
 					arrayFromIterable = iterateForEach(arraylike);
 				}
 			}
