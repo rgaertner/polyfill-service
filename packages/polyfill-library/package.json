@@ -1,5 +1,5 @@
 {
-  "name": "polyfill-library",
+  "name": "@marionebl/polyfill-library",
   "version": "3.20.2",
   "description": "A polyfill combinator",
   "main": "lib/index.js",
